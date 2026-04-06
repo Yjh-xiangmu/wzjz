@@ -103,4 +103,12 @@ public class OrderController {
     public Result<List<Map<String, Object>>> getRecordsBetween(@RequestParam Long donorId, @RequestParam Long recipientId) {
         return Result.success(orderMapper.getOrdersBetween(donorId, recipientId));
     }
+    // ================= 管理员端：全局订单与物流监控 =================
+    @GetMapping("/admin/list")
+    public Result<List<Order>> getAllOrders() {
+        // 全局查看所有订单及其物流状态，按生成时间倒序
+        LambdaQueryWrapper<Order> wrapper = new LambdaQueryWrapper<>();
+        wrapper.orderByDesc(Order::getCreateTime);
+        return Result.success(orderService.list(wrapper));
+    }
 }

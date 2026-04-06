@@ -60,7 +60,11 @@ const router = createRouter({
                 // 需求项目审核
                 { path: 'audit-demand', name: 'adminAuditDemand', component: () => import('../views/admin/DemandManageView.vue') },
                 // 物资管理审核
-                { path: 'audit-material', name: 'adminAuditMaterial', component: () => import('../views/admin/MaterialManageView.vue') }
+                { path: 'audit-material', name: 'adminAuditMaterial', component: () => import('../views/admin/MaterialManageView.vue') },
+                { path: 'orders', name: 'adminOrders', component: () => import('../views/admin/OrderManageView.vue') },
+                { path: 'dictionary', name: 'adminDictionary', component: () => import('../views/admin/CategoryManageView.vue') },
+                { path: 'notice', name: 'adminNotice', component: () => import('../views/admin/NoticeManageView.vue') },
+                { path: 'complaints', name: 'adminComplaints', component: () => import('../views/admin/ComplaintManageView.vue') }
             ]
         }
     ]

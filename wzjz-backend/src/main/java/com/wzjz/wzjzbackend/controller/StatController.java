@@ -29,7 +29,7 @@ public class StatController {
     @Autowired
     private OrderMapper orderMapper;
 
-    // 获取平台四大核心数据汇总
+    // 获取平台四大核心数据汇总 (保留原有接口)
     @GetMapping("/overview")
     public Result<Map<String, Object>> getOverview() {
         Map<String, Object> map = new HashMap<>();
@@ -40,9 +40,20 @@ public class StatController {
         return Result.success(map);
     }
 
-    // 获取最新匹配动态
+    // 获取最新匹配动态 (保留原有接口)
     @GetMapping("/dynamics")
     public Result<List<Map<String, Object>>> getDynamics() {
         return Result.success(orderMapper.getLatestDynamics());
+    }
+
+    // 管理员专属数据看板接口 (兼容前面发给你的前端 IndexView.vue 请求)
+    @GetMapping("/admin/overview")
+    public Result<Map<String, Object>> getAdminOverview() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("userCount", sysUserService.count());
+        map.put("materialCount", materialService.count());
+        map.put("demandCount", demandService.count());
+        map.put("orderCount", orderService.count());
+        return Result.success(map);
     }
 }

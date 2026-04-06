@@ -16,12 +16,7 @@
           <el-col :span="12">
             <el-form-item label="系统分类" prop="category">
               <el-select v-model="formData.category" placeholder="请选择物资分类" style="width: 100%;">
-                <el-option label="衣物鞋帽" value="衣物鞋帽" />
-                <el-option label="图书文具" value="图书文具" />
-                <el-option label="食品饮料" value="食品饮料" />
-                <el-option label="医疗用品" value="医疗用品" />
-                <el-option label="数码电器" value="数码电器" />
-                <el-option label="其他日常" value="其他日常" />
+                <el-option v-for="cat in categories" :key="cat.id" :label="cat.name" :value="cat.name" />
               </el-select>
             </el-form-item>
           </el-col>
@@ -91,7 +86,7 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import request from '../../utils/request'
@@ -99,6 +94,7 @@ import request from '../../utils/request'
 const formRef = ref(null)
 const loading = ref(false)
 const uploadedImageUrls = ref([])
+const categories = ref([])
 
 const formData = reactive({
   name: '',
@@ -175,6 +171,11 @@ const resetForm = () => {
   uploadedImageUrls.value = []
   formData.images = ''
 }
+
+onMounted(async () => {
+  const res = await request.get('/api/category/list')
+  if (res) categories.value = res
+})
 </script>
 
 <style scoped>

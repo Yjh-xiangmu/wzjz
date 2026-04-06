@@ -70,8 +70,32 @@
             <el-button type="warning" plain class="nav-btn" @click="$router.push('/recipient/feedback')">去写感恩回馈</el-button>
           </div>
         </el-card>
+
+        <el-card class="box-card" shadow="hover" style="margin-top: 20px;">
+          <template #header><div class="card-header"><span style="font-weight: bold;">平台公告</span></div></template>
+          <div v-if="notices.length > 0">
+            <div
+              v-for="item in notices" :key="item.id"
+              @click="viewNotice(item)"
+              class="notice-item"
+            >
+              <el-tag size="small" :type="item.type === '表彰' ? 'success' : (item.type === '资讯' ? 'warning' : 'info')">{{ item.type }}</el-tag>
+              <span style="margin-left: 8px; font-size: 13px; color: #303133;">{{ item.title }}</span>
+            </div>
+          </div>
+          <el-empty v-else description="暂无公告" :image-size="60" />
+        </el-card>
       </el-col>
     </el-row>
+
+    <!-- 公告详情弹窗 -->
+    <el-dialog v-model="noticeDialogVisible" :title="currentNotice.title" width="600px">
+      <div style="margin-bottom: 12px;">
+        <el-tag :type="currentNotice.type === '表彰' ? 'success' : (currentNotice.type === '资讯' ? 'warning' : 'info')">{{ currentNotice.type }}</el-tag>
+        <span style="margin-left: 10px; font-size: 13px; color: #909399;">{{ formatTime(currentNotice.createTime) }}</span>
+      </div>
+      <div style="line-height: 1.8; white-space: pre-wrap; color: #303133; min-height: 80px;">{{ currentNotice.content }}</div>
+    </el-dialog>
   </div>
 </template>
 
@@ -84,9 +108,18 @@ const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}')
 const loading = ref(false)
 const statData = ref({})
 const dynamics = ref([])
+const notices = ref([])
+
+const noticeDialogVisible = ref(false)
+const currentNotice = ref({})
 
 const formatTime = (timeStr) => timeStr ? timeStr.replace('T', ' ').substring(0, 16) : ''
 const hidePhone = (phone) => phone ? phone.substring(0, 3) + '****' + phone.substring(7) : '未知'
+
+const viewNotice = (item) => {
+  currentNotice.value = item
+  noticeDialogVisible.value = true
+}
 
 const fetchDashboardData = async () => {
   loading.value = true
@@ -96,6 +129,9 @@ const fetchDashboardData = async () => {
 
     const dyRes = await request.get('/api/stat/dynamics')
     if (dyRes) dynamics.value = dyRes
+
+    const noticeRes = await request.get('/api/notice/list')
+    if (noticeRes) notices.value = noticeRes.slice(0, 5)
   } catch (error) {
     console.error('获取大盘数据失败', error)
   } finally {
@@ -107,7 +143,6 @@ onMounted(() => fetchDashboardData())
 </script>
 
 <style scoped>
-/* 这里的样式与捐助者首页完全一致 */
 .welcome-section { margin-bottom: 20px; }
 .welcome-section h2 { color: #303133; margin-bottom: 5px; }
 .welcome-section p { color: #909399; font-size: 14px; }
@@ -118,4 +153,14 @@ onMounted(() => fetchDashboardData())
 .stat-value { font-size: 24px; font-weight: bold; color: #303133; }
 .quick-links { display: flex; flex-direction: column; gap: 15px; }
 .nav-btn { width: 100%; margin-left: 0 !important; }
+.notice-item {
+  margin-bottom: 12px;
+  padding: 6px 4px;
+  border-bottom: 1px solid #f5f5f5;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+.notice-item:hover { background: #f5f7fa; }
+.notice-item:last-child { border-bottom: none; margin-bottom: 0; }
 </style>

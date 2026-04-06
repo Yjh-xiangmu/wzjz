@@ -52,6 +52,40 @@
         </el-form-item>
       </el-form>
     </el-card>
+    <el-card class="box-card" shadow="hover" style="margin-top: 20px;">
+      <template #header><div class="card-header">意见反馈 / 投诉建议</div></template>
+      <el-row :gutter="30">
+        <el-col :span="10">
+          <el-form :model="complaintForm" label-width="80px" style="margin-top: 10px;">
+            <el-form-item label="反馈内容">
+              <el-input type="textarea" v-model="complaintForm.content" :rows="4" placeholder="请描述您的问题或建议..." />
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="submitComplaint" :loading="complaintLoading">提交反馈</el-button>
+              <el-button @click="complaintForm.content = ''">清空</el-button>
+            </el-form-item>
+          </el-form>
+        </el-col>
+        <el-col :span="14">
+          <div style="margin-top: 10px; font-weight: bold; margin-bottom: 10px; color: #606266;">我的反馈记录</div>
+          <div v-if="myComplaints.length > 0" style="max-height: 300px; overflow-y: auto;">
+            <div v-for="item in myComplaints" :key="item.id" class="complaint-item">
+              <div class="complaint-header">
+                <el-tag size="small" :type="item.status === 1 ? 'success' : 'warning'">
+                  {{ item.status === 1 ? '已回复' : '待处理' }}
+                </el-tag>
+                <span class="complaint-time">{{ formatComplaintTime(item.createTime) }}</span>
+              </div>
+              <div class="complaint-content">{{ item.content }}</div>
+              <div v-if="item.reply" class="complaint-reply">
+                <span style="color: #67C23A; font-weight: bold;">管理员回复：</span>{{ item.reply }}
+              </div>
+            </div>
+          </div>
+          <el-empty v-else description="暂无反馈记录" :image-size="60" />
+        </el-col>
+      </el-row>
+    </el-card>
   </div>
 </template>
 
@@ -60,6 +94,37 @@ import { ref, reactive, onMounted } from 'vue'
 import request from '../../utils/request'
 import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
+
+const complaintForm = reactive({ content: '' })
+const complaintLoading = ref(false)
+const myComplaints = ref([])
+
+const formatComplaintTime = (timeStr) => timeStr ? timeStr.replace('T', ' ').substring(0, 16) : ''
+
+const fetchMyComplaints = async () => {
+  const localUser = JSON.parse(localStorage.getItem('userInfo') || '{}')
+  const res = await request.get(`/api/complaint/myList?userId=${localUser.id}`)
+  if (res) myComplaints.value = res
+}
+
+const submitComplaint = async () => {
+  if (!complaintForm.content.trim()) {
+    ElMessage.warning('请填写反馈内容')
+    return
+  }
+  complaintLoading.value = true
+  try {
+    const localUser = JSON.parse(localStorage.getItem('userInfo') || '{}')
+    await request.post('/api/complaint/submit', { userId: localUser.id, content: complaintForm.content })
+    ElMessage.success('反馈提交成功，感谢您的建议！')
+    complaintForm.content = ''
+    fetchMyComplaints()
+  } catch (error) {
+    console.error('提交反馈失败', error)
+  } finally {
+    complaintLoading.value = false
+  }
+}
 
 const loading = ref(false)
 const submitLoading = ref(false)
@@ -144,6 +209,7 @@ const submitForm = async () => {
 
 onMounted(() => {
   fetchInfo()
+  fetchMyComplaints()
 })
 </script>
 
@@ -173,4 +239,16 @@ onMounted(() => {
 .save-btn {
   padding: 0 40px;
 }
+.complaint-item {
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  background: #f9f9f9;
+  border-radius: 6px;
+  border-left: 3px solid #dcdfe6;
+}
+.complaint-item:has(.complaint-reply) { border-left-color: #67C23A; }
+.complaint-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.complaint-time { font-size: 12px; color: #909399; }
+.complaint-content { font-size: 13px; color: #303133; margin-bottom: 6px; }
+.complaint-reply { font-size: 13px; color: #606266; background: #f0f9eb; padding: 6px 10px; border-radius: 4px; }
 </style>
