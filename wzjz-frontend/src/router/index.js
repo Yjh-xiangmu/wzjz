@@ -55,7 +55,12 @@ const router = createRouter({
             path: '/admin',
             component: () => import('../views/admin/Layout.vue'),
             children: [
-                { path: '', name: 'adminHome', component: () => import('../views/admin/IndexView.vue') }
+                { path: '', name: 'adminHome', component: () => import('../views/admin/IndexView.vue') },
+                { path: 'audit-user', name: 'adminAuditUser', component: () => import('../views/admin/UserManageView.vue') },
+                // 需求项目审核
+                { path: 'audit-demand', name: 'adminAuditDemand', component: () => import('../views/admin/DemandManageView.vue') },
+                // 物资管理审核
+                { path: 'audit-material', name: 'adminAuditMaterial', component: () => import('../views/admin/MaterialManageView.vue') }
             ]
         }
     ]

@@ -3,17 +3,21 @@ package com.wzjz.wzjzbackend.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.wzjz.wzjzbackend.common.Result;
 import com.wzjz.wzjzbackend.entity.Material;
+import com.wzjz.wzjzbackend.mapper.MaterialMapper;
 import com.wzjz.wzjzbackend.service.MaterialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/material")
 @CrossOrigin
-public class MaterialController {
 
+public class MaterialController {
+    @Autowired
+    private MaterialMapper materialMapper;
     @Autowired
     private MaterialService materialService;
 
@@ -55,5 +59,22 @@ public class MaterialController {
                 .eq(Material::getStatus, 0)
                 .orderByDesc(Material::getCreateTime);
         return Result.success(materialService.list(wrapper));
+    }
+    // 管理员：获取物资管理列表
+    @GetMapping("/admin/list")
+    public Result<List<Map<String, Object>>> getAdminList(@RequestParam(required = false) Integer status) {
+        return Result.success(materialMapper.getAdminMaterialList(status));
+    }
+
+    // 管理员：强制下架或恢复物资
+    // 状态码参考：0待捐助, 1已匹配待发货, 2运输中, 3已签收, 4强制下架
+    @PostMapping("/admin/changeStatus")
+    public Result<String> changeStatus(@RequestParam Long id, @RequestParam Integer status) {
+        Material material = new Material();
+        material.setId(id);
+        material.setStatus(status);
+        // 如果你的 MaterialService 名字不一样，请对应修改
+        boolean updated = materialService.updateById(material);
+        return updated ? Result.success("物资状态更新成功") : Result.error("状态更新失败");
     }
 }
