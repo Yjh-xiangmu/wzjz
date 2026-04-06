@@ -1,0 +1,21 @@
+server:
+  port: 8080
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB     # ?????????? 10MB
+      max-request-size: 50MB  # ???????????????????? 50MB
+  datasource:
+    url: jdbc:mysql://localhost:3306/wzjz_db?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true # ????????
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # ?????? SQL
+wzjz:
+  upload-path: E:/Projects/wzjz/wzjz_uploads/
+
