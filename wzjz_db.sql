@@ -11,7 +11,7 @@
  Target Server Version : 80026
  File Encoding         : 65001
 
- Date: 06/04/2026 16:19:11
+ Date: 23/04/2026 23:48:30
 */
 
 SET NAMES utf8mb4;
@@ -35,13 +35,14 @@ CREATE TABLE `biz_demand`  (
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '发布时间',
   `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '受助方需求表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '受助方需求表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of biz_demand
 -- ----------------------------
 INSERT INTO `biz_demand` VALUES (1, 3, '小米手机50部', 50, 34, '特急', '给山区孩子', '某某山区', '13900000000', 1, '2026-04-06 13:09:04', '2026-04-06 13:47:21');
 INSERT INTO `biz_demand` VALUES (2, 3, '非洲之心', 1, 0, '特急', '玩', '大坝', '13900000000', 1, '2026-04-06 15:39:43', '2026-04-06 15:40:33');
+INSERT INTO `biz_demand` VALUES (3, 3, '海洋之泪', 1, 0, '紧急', '玩', '家', '13900000000', 0, '2026-04-08 21:45:13', '2026-04-08 21:45:13');
 
 -- ----------------------------
 -- Table structure for biz_feedback
@@ -56,7 +57,7 @@ CREATE TABLE `biz_feedback`  (
   `images` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '现场受助照片(多图逗号分隔)',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '发布时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '受助方感恩回馈表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '受助方感恩回馈表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of biz_feedback
@@ -82,7 +83,7 @@ CREATE TABLE `biz_material`  (
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '发布时间',
   `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '捐助物资详情表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '捐助物资详情表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of biz_material
@@ -91,6 +92,7 @@ INSERT INTO `biz_material` VALUES (1, 1, '小米手机', '数码电器', 1, '全
 INSERT INTO `biz_material` VALUES (2, 1, '小米', '数码电器', 1, '全新', NULL, '11111', ',', 3, '2026-04-06 12:56:00', '2026-04-06 14:18:21');
 INSERT INTO `biz_material` VALUES (3, 1, '小米17', '数码电器', 2, '全新', NULL, '山区', '/uploads/46a1a31b5cec496ca2f3eefef2a65d06.jpg,/uploads/edf9f1f34cec4e9cb4f7c0e46bcc1694.jpg,/uploads/1782cd558c5549849236f8655badc7f8.jpg', 3, '2026-04-06 13:03:35', '2026-04-06 14:18:19');
 INSERT INTO `biz_material` VALUES (4, 1, '小米手机', '数码电器', 30, '全新', NULL, '30部给山区', '/uploads/4814ba8e915c4c37aa3e44d6dfc2c12b.jpg,/uploads/1ad10378aded4b89a196a9862d889cba.jpg,/uploads/642864460ce04d39bed6bf939e053371.jpg', 3, '2026-04-06 13:29:24', '2026-04-06 14:13:44');
+INSERT INTO `biz_material` VALUES (5, 1, '非洲之心', '其他', 1, '全新', NULL, '非洲之心', '/uploads/ccd13d6a0c954030acd6fef86ee34517.jfif', 0, '2026-04-08 20:42:18', '2026-04-08 20:42:18');
 
 -- ----------------------------
 -- Table structure for biz_message
@@ -105,7 +107,7 @@ CREATE TABLE `biz_message`  (
   `is_read` tinyint NULL DEFAULT 0 COMMENT '状态: 0未读, 1已读',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '发送时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '沟通留言表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '沟通留言表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of biz_message
@@ -129,7 +131,7 @@ CREATE TABLE `biz_order`  (
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '匹配成功(订单生成)时间',
   `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '捐助匹配订单与物流追踪表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '捐助匹配订单与物流追踪表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of biz_order
@@ -148,7 +150,7 @@ CREATE TABLE `sys_category`  (
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '分类名称(如衣物,书籍等)',
   `sort` int NULL DEFAULT 0 COMMENT '显示排序',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '物资分类字典表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '物资分类字典表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_category
@@ -157,6 +159,8 @@ INSERT INTO `sys_category` VALUES (1, '数码电器', 1);
 INSERT INTO `sys_category` VALUES (2, '衣物服装', 2);
 INSERT INTO `sys_category` VALUES (3, '图书文具', 3);
 INSERT INTO `sys_category` VALUES (4, '食品饮料', 4);
+INSERT INTO `sys_category` VALUES (5, '数码电器', 5);
+INSERT INTO `sys_category` VALUES (6, '其他', 6);
 
 -- ----------------------------
 -- Table structure for sys_complaint
@@ -170,11 +174,13 @@ CREATE TABLE `sys_complaint`  (
   `reply` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '管理员回复内容',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '意见投诉反馈表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '意见投诉反馈表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_complaint
 -- ----------------------------
+INSERT INTO `sys_complaint` VALUES (1, 1, '测试的', 1, '嗯', '2026-04-06 16:37:57');
+INSERT INTO `sys_complaint` VALUES (2, 1, '测试1', 1, '111\n', '2026-04-06 16:51:20');
 
 -- ----------------------------
 -- Table structure for sys_notice
@@ -192,6 +198,7 @@ CREATE TABLE `sys_notice`  (
 -- ----------------------------
 -- Records of sys_notice
 -- ----------------------------
+INSERT INTO `sys_notice` VALUES (1, '牢大牛！！！', '牢大太牛了', '表彰', '2026-04-06 16:35:17');
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -211,7 +218,7 @@ CREATE TABLE `sys_user`  (
   `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_phone`(`phone`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '系统用户表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '系统用户表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user
@@ -220,5 +227,6 @@ INSERT INTO `sys_user` VALUES (1, '15903852598', 'e10adc3949ba59abbe56e057f20f88
 INSERT INTO `sys_user` VALUES (2, '13000000000', 'e10adc3949ba59abbe56e057f20f883e', 'donor', NULL, NULL, 0, 0, '', '2026-04-06 11:57:16', '2026-04-06 11:57:16');
 INSERT INTO `sys_user` VALUES (3, '13900000000', 'e10adc3949ba59abbe56e057f20f883e', 'recipient', '大坝', '阿萨拉卫队', 0, 0, '/uploads/edf89527cc194408804e1e4fc3ffc35d.png', '2026-04-06 11:57:37', '2026-04-06 15:39:15');
 INSERT INTO `sys_user` VALUES (4, '19999999999', 'e10adc3949ba59abbe56e057f20f883e', 'admin', NULL, NULL, 0, 0, NULL, '2026-04-06 12:01:23', '2026-04-06 12:01:23');
+INSERT INTO `sys_user` VALUES (5, '13888888888', 'e10adc3949ba59abbe56e057f20f883e', 'recipient', NULL, NULL, 2, 0, '', '2026-04-08 21:38:21', '2026-04-08 21:38:21');
 
 SET FOREIGN_KEY_CHECKS = 1;
